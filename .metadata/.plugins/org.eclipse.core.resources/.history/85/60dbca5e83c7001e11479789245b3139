@@ -1,0 +1,20 @@
+package com.uj.service;
+
+import java.util.List;
+
+import com.uj.entity.ProductCategory;
+
+public interface IAdminOperation {
+
+	Boolean saveCategory(ProductCategory category);
+	
+	Boolean updateCategory(Integer id,ProductCategory category);
+	
+	Integer deleteCategoryById(Integer id);
+	
+	void deleteAllCategory();
+	
+	ProductCategory getCategoryById(Integer id);
+	
+	List<ProductCategory> getAllCategory();
+}

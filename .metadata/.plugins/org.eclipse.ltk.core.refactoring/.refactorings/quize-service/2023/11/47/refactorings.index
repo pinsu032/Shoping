@@ -1,0 +1,8 @@
+1700649403844	Extract local variable 'save'
+1700649458519	Extract local variable 'findAll'
+1700649508710	Extract local variable 'findById'
+1700649704445	Extract local variable 'create'
+1700650334946	Extract local variable 'allQuize'
+1700650514138	Extract local variable 'quize'
+1700653732104	Delete element
+1700655472146	Extract local variable 'collect'

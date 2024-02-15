@@ -1,0 +1,21 @@
+server.port = 9093
+spring.application.name = order-module
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/pushpanjali
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+#mail properties
+spring.mail.host=smtp.example.com
+spring.mail.protocol=smtp
+spring.mail.username=pinsusingh012@gmail.com
+spring.mail.password=pinsu012
+spring.mail.port=587  # Use 465 for SSL
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+

@@ -1,0 +1,12 @@
+package com.uj.dto;
+
+import lombok.Data;
+
+@Data
+public class OrderDetails {
+	
+	private String category;
+	private String productName;
+	private Integer noOfProduct;
+    private Float price;	
+}

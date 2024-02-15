@@ -1,0 +1,10 @@
+package com.uj.service;
+
+import com.uj.dto.OrderDetails;
+
+public interface IOrderService {
+
+	public Boolean placeOrder(OrderDetails details);
+	
+	List<Order>fetchAllOrders();
+}

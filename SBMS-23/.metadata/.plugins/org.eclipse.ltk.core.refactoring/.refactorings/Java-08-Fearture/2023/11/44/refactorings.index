@@ -1,0 +1,6 @@
+1699079316110	Delete element
+1699095337278	Delete element
+1699117298413	Rename package 'com.uj.StreamApi'
+1699117586945	Extract local variable 'collect'
+1699118565070	Extract local variable 'asList'
+1699120604604	Extract local variable 'count'

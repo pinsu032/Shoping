@@ -1,0 +1,5 @@
+package com.uj.multithreading;
+
+public class SynchronizationDemo {
+
+}

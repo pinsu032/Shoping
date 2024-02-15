@@ -1,0 +1,15 @@
+package com.uj;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Interface {
+
+	public static void main(String[] args) {
+
+		List<String> list = new ArrayList<>();
+		
+		list.forEach(null);
+	}
+
+}

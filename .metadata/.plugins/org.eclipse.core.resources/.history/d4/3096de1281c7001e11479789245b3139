@@ -1,0 +1,18 @@
+package com.uj.service;
+
+import com.uj.repo.ProductCategory;
+
+public interface IAdminOperation {
+
+	Boolean saveCategory(ProductCategory category);
+	
+	Boolean updateCategory(ProductCategory category);
+	
+	Integer deleteCategoryById(Integer id);
+	
+	String deleteAllCategory();
+	
+	ProductCategory getCategoryById(Integer id);
+	
+	String getAllCategory();
+}

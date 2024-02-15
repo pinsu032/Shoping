@@ -1,0 +1,7 @@
+1700472964692	Extract local variable 'findByUserName'
+1700473948378	Extract local variable 'asList'
+1700474373143	Extract local variable 'collect'
+1700474523914	Extract local variable 'save'
+1700488631404	Extract local variable 'authenticate'
+1700555649710	Extract local variable 'header'
+1700556129359	Extract local variable 'loadUserByUsername'

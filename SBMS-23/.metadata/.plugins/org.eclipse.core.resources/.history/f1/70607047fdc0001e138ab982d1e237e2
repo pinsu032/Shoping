@@ -1,0 +1,21 @@
+package com.uj.multithreading;
+
+import java.time.LocalDateTime;
+
+public class TicketBooking {
+	
+	int availableTickets = 2;
+	
+	public synchronized void bookTicktes() {
+		System.out.println(LocalDateTime.now());
+		if(availableTickets>0) {
+			System.out.println("Ticket bookes successfully.........");
+			availableTickets--;
+			System.out.println("Available Tickets :: "+availableTickets);
+		}
+		else {
+			System.out.println("Ticket not available...");
+		}
+	}
+
+}

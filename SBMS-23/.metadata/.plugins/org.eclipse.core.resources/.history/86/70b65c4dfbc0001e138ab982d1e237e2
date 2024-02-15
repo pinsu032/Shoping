@@ -1,0 +1,25 @@
+package com.uj.multithreading;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class SynchronizationDemo implements Runnable{
+	 @Override
+	public void run() {
+		 TicketBooking tb = new TicketBooking();
+		 tb.bookTicktes(); 
+	}
+	
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+		SynchronizationDemo d = new SynchronizationDemo();
+		
+		ExecutorService exService = Executors.newFixedThreadPool(15);
+		for(int i =1 ; i<=105;i++) {
+			Future<?> submit = exService.submit(d);
+			//System.out.println(submit.get().toString());
+		}
+	}
+
+}

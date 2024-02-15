@@ -1,0 +1,56 @@
+package com.uj.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.uj.dto.Login;
+import com.uj.dto.User;
+import com.uj.repo.UserMasterRepo;
+
+@Service
+public class UserServiceImpl implements IUserService {
+	
+	private UserMasterRepo masterRepo;
+	
+	public UserServiceImpl(UserMasterRepo masterRepo) {
+		this.masterRepo = masterRepo;
+	}
+
+	@Override
+	public boolean registerEmployee(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getUserById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getUserByMobile(Long mobile) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deleteUser(Integer id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String login(Login login) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

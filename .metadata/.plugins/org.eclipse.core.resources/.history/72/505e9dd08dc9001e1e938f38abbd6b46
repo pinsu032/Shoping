@@ -1,0 +1,6 @@
+package com.uj.fiegn;
+
+
+public interface UserFiegnClinet {
+
+}

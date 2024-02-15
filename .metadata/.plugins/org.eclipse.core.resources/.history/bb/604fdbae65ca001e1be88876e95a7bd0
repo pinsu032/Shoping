@@ -1,0 +1,98 @@
+package com.uj.service;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.uj.dto.EmailDetails;
+import com.uj.dto.OrderDetails;
+import com.uj.dto.OrderResponse;
+import com.uj.entity.OrderProduct;
+import com.uj.fiegn.AdminFieng;
+import com.uj.repo.OrderRepo;
+
+@Service
+public class OrderService implements IOrderService {
+
+	@Autowired
+	private OrderRepo repo;
+	@Autowired
+	private AdminFieng client;
+	
+	@Override
+	public Boolean placeOrder(OrderDetails details) {
+		Integer quantity = client.getQuantity(details.getPid());
+		if (quantity > 0 && quantity >= details.getNoOfProduct()) {
+			Double totalPrice = details.getNoOfProduct() * details.getPrice();
+			OrderProduct product = new OrderProduct();
+			BeanUtils.copyProperties(details, product);
+			product.setTotalPrice(totalPrice);
+			OrderProduct save = repo.save(product);
+
+			quantity = quantity - details.getNoOfProduct();
+
+			String updateProductQuantity = client.updateProductQuantity(details.getPid(), quantity);
+			System.out.println("===========" + updateProductQuantity);
+			
+			if(save.getOrderId() != null) {
+				sentMailToAdminAndCustomer(details);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void sentMailToAdminAndCustomer(OrderDetails order) {
+		EmailDetails details = new EmailDetails();
+		details.setRecipient("pinsusingh012@gmail.com");
+		details.setSubject("Order Summary");
+		String fileName = "Mail_Body.txt";
+		details.setMsgBody(readEmailBody(userMaster.getFullName(), userMaster.getPassword(), fileName));
+		
+	}
+	
+	private String readEmailBody(String productName,Double totalPrice,String fileName) {
+		String url = " ";
+		String body = null;
+		try {
+			FileReader reader = new FileReader(fileName);
+			BufferedReader br = new BufferedReader(reader);
+			StringBuffer buffer = new StringBuffer();
+			String line = br.readLine();
+			
+			while(line != null) {
+				buffer.append(line);
+				line = br.readLine();
+			}
+			br.close();
+			body = buffer.toString();
+			body = body.replace("{fullName}", name);
+			body = body.replace("{tempPwd}", pwd);
+			body = body.replace("{url}", url);
+			body = body.replace("{pwd}", pwd);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return body;
+	}
+
+	@Override
+	public List<OrderResponse> fetchAllOrders() {
+		List<OrderProduct> findAll = repo.findAll();
+		
+		List<OrderResponse> listOrder = new ArrayList<>();
+		findAll.forEach( order -> {
+		  OrderResponse  resp = new OrderResponse();
+		  BeanUtils.copyProperties(order, resp);
+		  listOrder.add(resp);
+		});
+		return listOrder;
+	}
+
+}

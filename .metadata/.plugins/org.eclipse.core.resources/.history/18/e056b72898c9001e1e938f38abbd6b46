@@ -1,0 +1,13 @@
+package com.uj.service;
+
+import com.uj.dto.OrderDetails;
+
+public class OrderService implements IOrderService {
+
+	@Override
+	public String placeOrder(OrderDetails details) {
+		
+		return null;
+	}
+
+}

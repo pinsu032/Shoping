@@ -1,0 +1,37 @@
+package com.uj.restcontroller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.uj.dto.OrderDetails;
+import com.uj.service.IOrderService;
+
+@RestController
+@RequestMapping("/order")
+public class OrderController {
+
+	@Autowired
+	private IOrderService service;
+	
+	@PostMapping("/place")
+	public ResponseEntity<String> placeOrder(@RequestBody OrderDetails details){
+		Boolean placeOrder = service.placeOrder(details);
+		if(placeOrder) {
+			return new ResponseEntity<String>("Order placed ..",HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<String>("Order not placed",HttpStatus.OK);
+		}
+	}
+	
+//	public ResponseEntity<?> getAllOrders(){
+//		
+//	}
+	
+	
+}

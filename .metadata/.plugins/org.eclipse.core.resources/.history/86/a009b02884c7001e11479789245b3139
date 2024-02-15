@@ -1,0 +1,119 @@
+package com.uj.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.uj.entity.Product;
+import com.uj.entity.ProductCategory;
+import com.uj.repo.ProductCategoryRepo;
+import com.uj.repo.ProductRepo;
+
+@Service
+public class AdminOperation implements IAdminOperation {
+	
+	private ProductCategoryRepo cRepo;
+	
+	private ProductRepo pRepo;
+	
+	@Autowired
+	public AdminOperation(ProductCategoryRepo cRepo) {
+		this.cRepo = cRepo;
+	}
+
+	@Override
+	public Boolean saveCategory(ProductCategory category) {
+		ProductCategory save = cRepo.save(category);
+		return save.getId()!= null;
+	}
+
+	@Override
+	public Boolean updateCategory(Integer id, ProductCategory category) {
+		Optional<ProductCategory> opt = cRepo.findById(id);
+		if (opt.isPresent()) {
+			cRepo.save(category);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public Integer deleteCategoryById(Integer id) {
+		if(cRepo.existsById(id)) {
+			cRepo.deleteById(id);
+			return id;
+		}
+		return null;
+	}
+
+	@Override
+	public void deleteAllCategory() {
+		cRepo.deleteAll();
+	}
+
+	@Override
+	public ProductCategory getCategoryById(Integer id) {
+        Optional<ProductCategory> opt = cRepo.findById(id);
+        if(opt.isPresent()) {
+        	return opt.get();
+        }
+		return null;
+	}
+
+	@Override
+	public List<ProductCategory> getAllCategory() {
+		List<ProductCategory> catList = cRepo.findAll();
+		if(!catList.isEmpty())
+		     return catList;
+		else
+			return null;
+	}
+
+	@Override
+	public Boolean saveProduct(Product product) {
+		Product save = pRepo.save(product);
+		return save.getPid()!= null;
+	}
+
+	@Override
+	public Boolean updateProduct(Integer id, Product product) {
+		Optional<Product> opt = pRepo.findById(id);
+		if (opt.isPresent()) {
+			pRepo.save(product);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public Integer deleteProductById(Integer id) {
+		if(pRepo.existsById(id)) {
+			pRepo.deleteById(id);
+			return id;
+		}
+		return null;
+	}
+
+	@Override
+	public void deleteAllProduct() {
+		pRepo.deleteAll();
+	}
+
+	@Override
+	public Product getProductById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Product> getAllProduct() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+}

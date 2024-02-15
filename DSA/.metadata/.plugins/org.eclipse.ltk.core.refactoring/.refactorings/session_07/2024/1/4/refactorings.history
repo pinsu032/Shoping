@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;nextInt&apos; from expression &apos;sc.nextInt()&apos;&#x0D;&#x0A;- Original project: &apos;session_07&apos;&#x0D;&#x0A;- Variable name: &apos;nextInt&apos;&#x0D;&#x0A;- Destination method: &apos;com.uj.Pattern01.main(...)&apos;&#x0D;&#x0A;- Variable expression: &apos;sc.nextInt()&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;nextInt&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src&lt;com.uj{Pattern01.java" name="nextInt" replace="true" selection="238 0" stamp="1706087877432" varType="false" version="1.0"/>
+</session>

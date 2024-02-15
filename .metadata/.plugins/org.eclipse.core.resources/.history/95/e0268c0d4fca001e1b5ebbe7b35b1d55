@@ -1,0 +1,53 @@
+package com.uj.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.uj.dto.OrderDetails;
+import com.uj.dto.OrderResponse;
+import com.uj.entity.OrderProduct;
+import com.uj.repo.OrderRepo;
+
+@Service
+public class OrderService implements IOrderService {
+
+	@Autowired
+	private OrderRepo repo;
+	//@Autowired
+	//private AdminFieng client;
+	
+	@Override
+	public Boolean placeOrder(OrderDetails details) {
+		Double totalPrice = details.getNoOfProduct() * details.getPrice();
+		OrderProduct product = new OrderProduct();
+		BeanUtils.copyProperties(details , product);
+		product.setTotalPrice(totalPrice);
+		OrderProduct save = repo.save(product);
+		//update qty in product table after order placed
+//		Product p = new Product();
+//		p.setProductName(details.getProductName());
+//		p.setProductPrice(details.getPrice());
+//		p.setProductType(details.getCategory());
+		
+		//p.setQuantity(null);
+		return save.getOrderId() != null;
+	}
+
+	@Override
+	public List<OrderResponse> fetchAllOrders() {
+		List<OrderProduct> findAll = repo.findAll();
+		
+		List<OrderResponse> listOrder = new ArrayList<>();
+		findAll.forEach( order -> {
+		  OrderResponse  resp = new OrderResponse();
+		  BeanUtils.copyProperties(order, resp);
+		  listOrder.add(resp);
+		});
+		return listOrder;
+	}
+
+}

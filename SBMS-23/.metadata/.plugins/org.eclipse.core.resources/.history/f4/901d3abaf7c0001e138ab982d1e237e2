@@ -1,0 +1,19 @@
+package com.uj.multithreading;
+
+public class DaemonThread{
+
+	public static void main(String[] args) {
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+
+				if(Thread.currentThread().isDaemon())
+					System.out.println("Daemon Thread running......");
+				else 
+					System.out.println("Normal Thread running..");
+			}
+		});
+	}
+		
+}

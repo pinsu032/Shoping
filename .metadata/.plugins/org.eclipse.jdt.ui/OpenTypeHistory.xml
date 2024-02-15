@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+    <typeInfo handle="=quize-service/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.uj.service{IQuize.java[IQuize" modifiers="513" timestamp="1700649291495"/>
+    <typeInfo handle="=question-service/C:\/Users\/ujjawal.kinker\/.m2\/repository\/org\/springframework\/data\/spring-data-jpa\/3.1.5\/spring-data-jpa-3.1.5.jar=/maven.pomderived=/true=/=/maven.groupId=/org.springframework.data=/=/maven.artifactId=/spring-data-jpa=/=/maven.version=/3.1.5=/=/maven.scope=/compile=/=/maven.pomderived=/true=/&lt;org.springframework.data.jpa.repository(JpaRepository.class[JpaRepository" modifiers="1537" timestamp="1698905562869"/>
+    <typeInfo handle="=question-service/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.uj.service{IQuestion.java[IQuestion" modifiers="513" timestamp="1700651350275"/>
+    <typeInfo handle="=01-admin-module/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.uj.service{IAdminOperation.java[IAdminOperation" modifiers="513" timestamp="1707820471866"/>
+    <typeInfo handle="=02-users-details/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.uj.service{IUserService.java[IUserService" modifiers="513" timestamp="1707730772133"/>
+    <typeInfo handle="=02-users-details/C:\/Users\/ujjawal.kinker\/.m2\/repository\/org\/springframework\/data\/spring-data-jpa\/3.2.2\/spring-data-jpa-3.2.2.jar=/maven.pomderived=/true=/=/maven.groupId=/org.springframework.data=/=/maven.artifactId=/spring-data-jpa=/=/maven.version=/3.2.2=/=/maven.scope=/compile=/=/maven.pomderived=/true=/&lt;org.springframework.data.jpa.repository(JpaRepository.class[JpaRepository" modifiers="1537" timestamp="1707392906145"/>
+</typeInfoHistroy>

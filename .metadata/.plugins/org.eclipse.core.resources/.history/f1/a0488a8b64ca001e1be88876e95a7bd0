@@ -1,0 +1,5 @@
+package com.uj.util;
+
+public class EmailUtil {
+
+}

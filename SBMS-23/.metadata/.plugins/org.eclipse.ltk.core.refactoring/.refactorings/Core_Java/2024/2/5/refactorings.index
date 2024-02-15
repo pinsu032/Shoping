@@ -1,0 +1,5 @@
+1706785014363	Extract local variable 'currentThread'
+1706787117844	Extract local variable 'newFixedThreadPool'
+1706787185882	Extract local variable 'submit'
+1706789345119	Extract local variable 'newFixedThreadPool'
+1706789464133	Extract local variable 'submit'

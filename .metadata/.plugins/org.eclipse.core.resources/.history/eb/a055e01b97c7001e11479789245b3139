@@ -1,0 +1,15 @@
+package com.uj.repo;
+
+import java.util.Set;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.uj.entity.Product;
+
+public interface ProductRepo extends JpaRepository<Product, Integer>{
+
+	@Query("select * from product where category_id=?")
+	Set<Product> findByCategoryId(Integer id);
+
+}

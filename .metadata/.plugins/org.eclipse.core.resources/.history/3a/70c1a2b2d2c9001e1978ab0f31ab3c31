@@ -1,0 +1,41 @@
+package com.uj.service;
+
+import java.util.List;
+
+import com.uj.dto.RoleChange;
+import com.uj.entity.Product;
+import com.uj.entity.ProductCategory;
+
+public interface IAdminOperation {
+
+	//category operation
+	Boolean saveCategory(ProductCategory category);
+
+	Boolean updateCategory(Integer id, ProductCategory category);
+
+	Integer deleteCategoryById(Integer id);
+
+	void deleteAllCategory();
+
+	ProductCategory getCategoryById(Integer id);
+
+	List<ProductCategory> getAllCategory();
+
+	//product operation
+	Boolean saveProduct(Product product);
+
+	Boolean updateProduct(Integer id, Product product);
+
+	Integer deleteProductById(Integer id);
+
+	void deleteAllProduct();
+
+	Product getProductById(Integer id);
+
+	List<Product> getAllProduct();
+	
+	//provide role
+	
+	String grantRoleOfUser(Integer id,RoleChange role);
+
+}
