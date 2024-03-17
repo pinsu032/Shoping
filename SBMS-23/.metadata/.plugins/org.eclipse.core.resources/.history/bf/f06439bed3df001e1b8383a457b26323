@@ -1,0 +1,18 @@
+package com.uj.collection;
+
+
+
+public class ForEachDemo  implements FunctionalInterfaceDemo{
+	
+	private static int count;
+
+	public static void main(String[] args) {
+		
+	}
+
+	@Override
+	public void m1() {
+		System.out.println("m1 method");
+	}
+
+}

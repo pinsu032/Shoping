@@ -1,0 +1,9 @@
+package com.uj.functionalinterface;
+
+public class SuplierDemo {
+
+	public static void main(String[] args) {
+		
+	}
+
+}

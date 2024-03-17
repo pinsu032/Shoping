@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uj.dto.Login;
+import com.uj.dto.LoginReq;
 import com.uj.dto.RoleChange;
 import com.uj.dto.User;
 import com.uj.service.IUserService;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 	
 	private IUserService service;
@@ -85,8 +88,9 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Login login){
 		String msg = service.login(login);
-		
-		return new ResponseEntity<String>(msg,HttpStatus.OK);
+		LoginReq req = new LoginReq();
+		req.setMsg(msg);
+		return new ResponseEntity<LoginReq>(req,HttpStatus.OK);
 		
 	}
 	

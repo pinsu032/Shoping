@@ -1,0 +1,14 @@
+package com.uj.collection;
+
+
+
+public class ForEachDemo implements FunctionalInterfaceDemo{
+	
+
+	public static void main(String[] args) {
+		FunctionalInterfaceDemo demo = () -> {
+			System.out.println("m1");
+		}
+	}
+
+}

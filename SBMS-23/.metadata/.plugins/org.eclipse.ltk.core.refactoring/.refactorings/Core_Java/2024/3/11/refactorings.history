@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;asList&apos; from expression &apos;Arrays.asList(&quot;abc&quot;,&quot;bcd&quot;)&apos;&#x0D;&#x0A;- Original project: &apos;Core_Java&apos;&#x0D;&#x0A;- Variable name: &apos;asList&apos;&#x0D;&#x0A;- Destination method: &apos;com.uj.collection.ForEachDemo.main(...)&apos;&#x0D;&#x0A;- Variable expression: &apos;Arrays.asList(&quot;abc&quot;,&quot;bcd&quot;)&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;asList&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src&lt;com.uj.collection{ForEachDemo.java" name="asList" replace="true" selection="160 0" stamp="1710179924175" varType="false" version="1.0"/>
+</session>

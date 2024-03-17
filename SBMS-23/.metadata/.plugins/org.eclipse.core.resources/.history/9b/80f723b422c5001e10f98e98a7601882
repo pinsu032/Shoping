@@ -1,9 +1,0 @@
-package com.uj.runner;
-
-import org.springframework.stereotype.Component;
-
-@Component
-public class RunnerDemo {
-	
-
-}

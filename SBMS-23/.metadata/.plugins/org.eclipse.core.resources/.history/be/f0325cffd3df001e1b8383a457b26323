@@ -1,0 +1,19 @@
+package com.uj.collection;
+
+
+
+public class ForEachDemo{
+	
+
+	public static void main(String[] args) {
+		FunctionalInterfaceDemo fi = new FunctionalInterfaceDemo() {
+			
+			@Override
+			public void m1() {
+				System.out.println("ForEachDemo.main(...).new FunctionalInterfaceDemo() {...}.m1()");
+			}
+		};
+		
+	}
+
+}

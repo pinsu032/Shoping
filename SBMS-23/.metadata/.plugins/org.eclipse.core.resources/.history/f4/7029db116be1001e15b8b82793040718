@@ -1,0 +1,19 @@
+package com.uj.methodreference;
+
+public class MethodRef{
+
+	public static void main(String[] args) {
+		Runnable obj= new Runnable() {
+			@Override
+			public void run() {
+				System.err.println("Job");
+				
+			}
+		};
+		
+		Thread t = new Thread(obj);
+		t.start();
+	}
+}
+
+

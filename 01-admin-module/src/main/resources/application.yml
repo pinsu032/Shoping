@@ -1,0 +1,23 @@
+server:
+  port: 9091
+  
+spring:
+  application:
+    name: admin-module
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/pushpanjali
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/

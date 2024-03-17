@@ -1,0 +1,37 @@
+server:
+  port: 9096
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: admin-module
+        uri: http://localhost:9091/
+        predicates:
+        - Path=/admin/**
+        filters:
+        - AuthenticationFilter
+      - id: users-details
+        uri: http://localhost:9092/
+        predicates:
+        - Path=/user/**
+      - id: order-module
+        uri: http://localhost:9093/
+        predicates:
+        - Path=/order/**
+      - id: auth-service
+        uri: http://localhost:9095/
+        predicates:
+        - Path=/auth/**
+        
+        
+
+            
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+        
+

@@ -1,0 +1,17 @@
+package com.uj.methodreference;
+
+public class MethodRef{
+
+	public static void main(String[] args) {
+		Employee e1 = new Employee();
+		Employee e2 = new Employee();
+		
+		System.out.println(e1.equals(e2));
+	}		
+}
+
+class Employee{
+	int id = 1;
+}
+
+

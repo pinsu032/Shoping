@@ -1,0 +1,16 @@
+package com.uj.stream;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class StreamMethodDemo {
+
+	public static void main(String[] args) {
+		List<String> password = Arrays.asList("india@","usa#","uk@", "japan#");
+		String regExp = "[^a-zA-Z0-9 ]*";
+		//allMatch()
+		list1.stream().
+	}
+
+}

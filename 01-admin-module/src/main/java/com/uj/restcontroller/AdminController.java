@@ -45,7 +45,7 @@ public class AdminController {
 		}
 	}
 	
-	@PutMapping("update/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<String> upadateCategory(@PathVariable("id") Integer id,
 			@RequestBody ProductCategory category){
 		Boolean updateCategory = service.updateCategory(id, category);
@@ -57,7 +57,7 @@ public class AdminController {
 		}
 	} 
 	
-	@DeleteMapping("delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteCategoryById(@PathVariable("id") Integer id) {
 		Integer deleteCategoryById = service.deleteCategoryById(id);
 		if(deleteCategoryById!=null)
@@ -67,14 +67,14 @@ public class AdminController {
 
 	}
 	
-	@DeleteMapping("deleteAll")
+	@DeleteMapping("/deleteAll")
 	public ResponseEntity<String> deleteAllCategory() {
 		service.deleteAllCategory();
 		
 		return new ResponseEntity<String>("All Category deleted",HttpStatus.OK);
 	}
 	
-	@GetMapping("get/{id}")
+	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getCategoryById(@PathVariable("id") Integer id) {
 		ProductCategory productCategory = service.getCategoryById(id);
 		if(productCategory!=null)
@@ -84,7 +84,7 @@ public class AdminController {
 
 	}
 	
-	@GetMapping("getAll")
+	@GetMapping("/getAll")
 	public ResponseEntity<?> getAllCategory() {
 		List<ProductCategory> allCategory = service.getAllCategory();
 		if(!allCategory.isEmpty())
@@ -114,7 +114,7 @@ public class AdminController {
 		}
 	}
 	
-	@PutMapping("update_p/{id}")
+	@PutMapping("/update_p/{id}")
 	public ResponseEntity<String> upadateProduct(@PathVariable("id") Integer id,
 			@RequestBody Product product){
 		Boolean updateProduct = service.updateProduct(id, product);
@@ -143,7 +143,7 @@ public class AdminController {
 		return new ResponseEntity<String>("All Product deleted",HttpStatus.OK);
 	}
 	
-	@GetMapping("get_p/{id}")
+	@GetMapping("/get_p/{id}")
 	public ResponseEntity<?> getProductById(@PathVariable("id") Integer id) {
 		Product product = service.getProductById(id);
 		if(product!=null)
@@ -153,7 +153,7 @@ public class AdminController {
 
 	}
 	
-	@GetMapping("getAll_p")
+	@GetMapping("/getAll_p")
 	public ResponseEntity<?> getAllProduct() {
 		List<ProductResponse> allProduct = service.getAllProduct();
 		if(!allProduct.isEmpty())
@@ -171,13 +171,13 @@ public class AdminController {
 		return new ResponseEntity<String>(grantRoleOfUser,HttpStatus.OK);
 	}
 	
-	@GetMapping("fetch/{category}")
+	@GetMapping("/fetch/{category}")
 	public ResponseEntity<?> getProductByCategory(@PathVariable("category") String category){
 		List<ProductResponse> productByCategory = service.getProductByCategory(category);
 		return new ResponseEntity<List<ProductResponse>>(productByCategory,HttpStatus.OK);
 	}
 	
-	@GetMapping("stock/{pid}")
+	@GetMapping("/stock/{pid}")
 	public ResponseEntity<?> getProductByCategory(@PathVariable("pid") Integer pid){
 		StockResponse checkStocck = service.checkStocck(pid);
 		return new ResponseEntity<StockResponse>(checkStocck,HttpStatus.OK);

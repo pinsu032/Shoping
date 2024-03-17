@@ -1,0 +1,5 @@
+1708355611265	Extract local variable 'createNewFile'
+1708355818589	Extract local variable 'mkdir'
+1708356979546	Extract local variable 'createNewFile2'
+1708357211617	Extract local variable 'list'
+1708359677652	Extract local variable 'read'
