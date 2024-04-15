@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,22 +19,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uj.dto.AuthRequest;
 import com.uj.dto.ProductResponse;
 import com.uj.dto.RoleChange;
 import com.uj.dto.StockResponse;
 import com.uj.entity.Product;
 import com.uj.entity.ProductCategory;
 import com.uj.service.IAdminOperation;
+import com.uj.util.JwtUtil;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
+	@Autowired
 	private IAdminOperation service;
 	
 	@Autowired
+	private JwtUtil util;
+	
+	@Autowired
+    private AuthenticationManager authenticationManager;
+	
 	public AdminController(IAdminOperation service) {
 		this.service = service;
+	}
+	
+	@PostMapping("/token")
+	public ResponseEntity<String> generateToken(@RequestBody AuthRequest req){
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
+		if(authentication.isAuthenticated()) {
+			String generatedToken = util.generateToken(req.getEmail());
+			return new ResponseEntity<String>(generatedToken,HttpStatus.OK);
+		}else {
+			return null;
+		}
 	}
 	
 	//category operation
@@ -58,6 +81,7 @@ public class AdminController {
 	} 
 	
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<String> deleteCategoryById(@PathVariable("id") Integer id) {
 		Integer deleteCategoryById = service.deleteCategoryById(id);
 		if(deleteCategoryById!=null)
@@ -75,6 +99,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/get/{id}")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<?> getCategoryById(@PathVariable("id") Integer id) {
 		ProductCategory productCategory = service.getCategoryById(id);
 		if(productCategory!=null)
@@ -86,6 +111,7 @@ public class AdminController {
 	
 	@GetMapping("/getAll")
 	public ResponseEntity<?> getAllCategory() {
+		System.out.println(new BCryptPasswordEncoder().encode("pinsu"));
 		List<ProductCategory> allCategory = service.getAllCategory();
 		if(!allCategory.isEmpty())
 			return new ResponseEntity<List<ProductCategory>>(allCategory,HttpStatus.OK);

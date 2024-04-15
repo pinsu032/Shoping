@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,14 +27,15 @@ import com.uj.service.IUserService;
 @CrossOrigin(origins = "*")
 public class UserController {
 	
+	@Autowired
 	private IUserService service;
 
-	@Autowired
+	
 	public UserController(IUserService service) {
 		this.service = service;
 	}
 	
-	@PostMapping("/")
+	@PostMapping("/register")
 	public ResponseEntity<String> registerUser(@RequestBody User user){
 		boolean status = service.registerEmployee(user);
 		
@@ -45,6 +47,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/all")
+	//@PreAuthorize("hasAuthority('ROLE_ADMIN','ROLE_USER')")
 	public ResponseEntity<?> getAllUser(){
 		List<User> allUsers = service.getAllUsers();
 		
@@ -55,7 +58,7 @@ public class UserController {
 
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getUserById(@PathVariable("id") Integer id){
 		User userById = service.getUserById(id);
 		
@@ -65,17 +68,8 @@ public class UserController {
 		  return new ResponseEntity<String>("Something went wrong",HttpStatus.OK);
 	}
 	
-	@GetMapping("/get/{mobile}")
-	public ResponseEntity<?> getUserByMobile(@PathVariable("mobile") Long mobile){
-		User userByMobile = service.getUserByMobile(mobile);
-		
-		if(userByMobile != null)
-		  return new ResponseEntity<User>(userByMobile,HttpStatus.OK);
-		else
-		  return new ResponseEntity<String>("Something went wrong",HttpStatus.OK);
-	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/del/{id}")
 	public ResponseEntity<?> deleteUserById(@PathVariable("id") Integer id){
 		boolean deleteUser = service.deleteUser(id);
 		
@@ -85,16 +79,24 @@ public class UserController {
 		  return new ResponseEntity<String>("Something went wrong",HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/delAll")
+	public ResponseEntity<?> deleteAllUserBy(){
+		String msg = service.deleteAllUser();
+		
+		return new ResponseEntity<String>(msg,HttpStatus.OK);
+	}
+	
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody Login login){
+	public ResponseEntity<String> login(@RequestBody Login login){
 		String msg = service.login(login);
-		LoginReq req = new LoginReq();
-		req.setMsg(msg);
-		return new ResponseEntity<LoginReq>(req,HttpStatus.OK);
+		//LoginReq req = new LoginReq();
+		//req.setMsg(msg);
+		return new ResponseEntity<>(msg,HttpStatus.OK);
 		
 	}
 	
 	@PutMapping("/change/{id}")
+	//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<String> changeRole(@PathVariable("id") Integer id,@RequestBody RoleChange role){
 		String changeRoleOfUser = service.changeRoleOfUser(id, role);
 		if(changeRoleOfUser != null) {

@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: stationary-store
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/pushpanjali
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    
+  mail:
+    host: smtp.gmail.com
+    password: pinsu012
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+             enable: true
+    protocol: smtp
+    username: pinsusingh012@gmail.com

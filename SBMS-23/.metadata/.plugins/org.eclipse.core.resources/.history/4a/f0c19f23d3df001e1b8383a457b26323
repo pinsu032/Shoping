@@ -1,8 +1,0 @@
-package com.uj.collection;
-
-@FunctionalInterface
-public interface FunctionalInterface {
-
-	void m1();
-	
-}

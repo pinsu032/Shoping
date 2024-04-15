@@ -14,11 +14,13 @@ public interface IUserService {
 
 	User getUserById(Integer id);
 
-	User getUserByMobile(Long mobile);
+	User getUserByEmail(String email);
 
 	boolean deleteUser(Integer id);
 
 	String login(Login login);
 	
 	String changeRoleOfUser(Integer id,RoleChange role);
+	
+	String deleteAllUser();
 }

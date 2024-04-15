@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 import com.uj.dto.Login;
 import com.uj.dto.RoleChange;
 import com.uj.dto.User;
@@ -30,6 +33,7 @@ public class UserServiceImpl implements IUserService {
         
 		BeanUtils.copyProperties(user, userMaster);
 		userMaster.setRole("USER");
+		userMaster.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		UsersMaster save = masterRepo.save(userMaster);
 		
 		return save.getUserId()!=null;
@@ -62,10 +66,12 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public User getUserByMobile(Long mobile) {
-		UsersMaster findByMobile = masterRepo.findByMobile(mobile);
+	public User getUserByEmail(String email) {
+		Optional<UsersMaster> findByEmail = masterRepo.findByEmail(email);
 		User user = new User();
-		BeanUtils.copyProperties(findByMobile, user);
+		if(findByEmail.isPresent()) {
+			BeanUtils.copyProperties(findByEmail.get(), user);
+		}
 		return user;
 	}
 
@@ -81,9 +87,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public String login(Login login) {
-		UsersMaster findByMobileAndPassword = masterRepo.findByMobileAndPassword(login.getMobile(), login.getPassword());
+		UsersMaster findByEmailAndPassword = masterRepo.findByEmailAndPassword(login.getEmail(), login.getPassword());
 		String msg = " ";
-		if (findByMobileAndPassword != null) 
+		if (findByEmailAndPassword != null) 
 			msg = "login success";
 		else 
 			msg = "Invalid credentials";
@@ -107,6 +113,18 @@ public class UserServiceImpl implements IUserService {
 			}
 		}
 			
+		return msg;
+	}
+
+	@Override
+	public String deleteAllUser() {
+		String msg = null;
+		try {
+			masterRepo.deleteAll();
+			msg = "All users deleted";
+		}catch(Exception e){
+			msg = "Can't delete all users..";
+		}
 		return msg;
 	}
 	

@@ -81,8 +81,9 @@ public class StreamApiQuestion {
 	         System.out.println("==================================");
         // 7. What is the average salary of each department ?
                Map<String, Double> collect3 = employeeList.stream().collect(Collectors.groupingBy(Employee::getDepartment , Collectors.averagingDouble(Employee::getSalary)));
-               System.out.println(collect3);
                
+               System.out.println(collect3);
+                              
   	         System.out.println("==================================");
             //8. Get the details of youngest male employee in the Development department ?
            Optional<Employee> collect4 = employeeList.stream().filter(e ->e.getGender().equalsIgnoreCase("Male") && e.getDepartment().equalsIgnoreCase("Development"))
@@ -105,6 +106,15 @@ public class StreamApiQuestion {
            //10. How many male and female employees are there in the Sales team ?
            Map<String, Long> collect5 = employeeList.stream().filter(e -> e.getDepartment().equalsIgnoreCase("Sales")).collect(Collectors.groupingBy(Employee::getGender , Collectors.counting()));
 	         System.out.println(collect5);
+	         
+	         List<String> pipeLineUser = userIds.stream()
+						.map(userId -> {
+						  Optional<UserId> opt = userRepo.findById(userId.getId());
+						   if(opt.isPresent) {
+							  return opt.get().fullName();
+						   }
+						})
+						.collect(Collectors.toList());	         
 	}
 
 	private static void saveEmployeeInList() {        
