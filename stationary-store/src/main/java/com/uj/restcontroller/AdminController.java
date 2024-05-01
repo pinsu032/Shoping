@@ -1,5 +1,6 @@
 package com.uj.restcontroller;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uj.dto.AuthRequest;
+import com.uj.dto.LoginResponse;
 import com.uj.dto.ProductResponse;
+import com.uj.dto.Response;
 import com.uj.dto.StockResponse;
 import com.uj.entity.Product;
 import com.uj.entity.ProductCategory;
@@ -45,14 +49,26 @@ public class AdminController {
 	}
 	
 	@PostMapping("/token")
-	public ResponseEntity<String> generateToken(@RequestBody AuthRequest req){
+	public ResponseEntity<LoginResponse> generateToken(@RequestBody AuthRequest req){
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
+		LoginResponse res = new LoginResponse();
+		
 		if(authentication.isAuthenticated()) {
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			authorities.forEach(r->res.setRole(r.getAuthority()));
 			String generatedToken = util.generateToken(req.getEmail());
-			return new ResponseEntity<String>(generatedToken,HttpStatus.OK);
+			res.setFullName(req.getPassword());
+			if(generatedToken != null) {
+				res.setEmail(req.getEmail());
+				res.setMsg("Login Success...");
+				res.setToken(generatedToken);
+			}
 		}else {
-			return null;
+			res.setMsg("Login Falied...");
 		}
+		
+		return new ResponseEntity<LoginResponse>(res,HttpStatus.OK);
+
 	}
 	
 	//category operation
@@ -129,26 +145,34 @@ public class AdminController {
 	
 	//product operation
 	@PostMapping("/create_p")
-	public ResponseEntity<String> saveProduct(@RequestBody Product product){
+	public ResponseEntity<?> saveProduct(@RequestBody Product product){
 		Boolean saveProduct = service.saveProduct(product);
+		Response res = new Response();
 		if(saveProduct) {
-			return new ResponseEntity<String>(product.getProductName()+" Product saved",HttpStatus.CREATED);
+			res.setMsg(product.getProductName()+" Product saved");
 		}
 		else {
-			return new ResponseEntity<String>(product.getProductName()+" Product not saved",HttpStatus.OK);
+			res.setMsg(product.getProductName()+" Product not saved");
 		}
+		
+		return new ResponseEntity<Response>(res,HttpStatus.OK);
+
 	}
 	
 	@PutMapping("/update_p/{id}")
-	public ResponseEntity<String> upadateProduct(@PathVariable("id") Integer id,
-			@RequestBody Product product){
+	public ResponseEntity<?> upadateProduct(@PathVariable("id") Integer id,
+			@RequestBody ProductResponse product){
 		Boolean updateProduct = service.updateProduct(id, product);
+		Response res = new Response();
 		if(updateProduct) {
-			return new ResponseEntity<String>(product.getProductName()+" Product updated",HttpStatus.OK);
+			res.setMsg(product.getProductName()+" Product updated");
 		}
 		else {
-			return new ResponseEntity<String>(product.getProductName()+" Product not updated",HttpStatus.OK);
+			res.setMsg(product.getProductName()+" Product not updated");
 		}
+		
+		return new ResponseEntity<Response>(res,HttpStatus.OK);
+
 	} 
 	
 	@DeleteMapping("delete_p/{id}")
@@ -195,9 +219,10 @@ public class AdminController {
 		return new ResponseEntity<List<ProductResponse>>(productByCategory,HttpStatus.OK);
 	}
 	
-	@GetMapping("/stock/{pid}")
-	public ResponseEntity<?> getProductByCategory(@PathVariable("pid") Integer pid){
-		StockResponse checkStocck = service.checkStocck(pid);
+	@GetMapping("/stock/{pid}/{noOfProduct}")
+	public ResponseEntity<?> getProductByCategory(
+			@PathVariable("pid") Integer pid , @PathVariable("noOfProduct") Integer noOfProduct){
+		StockResponse checkStocck = service.checkStocck(pid,noOfProduct);
 		return new ResponseEntity<StockResponse>(checkStocck,HttpStatus.OK);
 	}
 	

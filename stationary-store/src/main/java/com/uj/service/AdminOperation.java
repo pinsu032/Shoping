@@ -139,24 +139,18 @@ public class AdminOperation implements IAdminOperation {
 	}
 
 	@Override
-	public Boolean updateProduct(Integer id, Product product) {
+	public Boolean updateProduct(Integer id, ProductResponse res) {
 		Optional<Product> opt = pRepo.findById(id);
-		String category = product.getProductType();
-		ProductCategory productCategory = cRepo.findByCategory(category);
-		
-		ProductCategory pCategory = new ProductCategory();
-		pCategory.setId(productCategory.getId());
-		
-		product.setProductCategory(pCategory);
-		if (opt.isPresent()) {
-			Product prod = opt.get();
-			BeanUtils.copyProperties(product, prod);
-			prod.setPid(id);
-			pRepo.save(prod);
-			return true;
-		} else {
-			return false;
+		if(opt.isPresent()) {
+			Product product = opt.get();
+			System.out.println(res.getQuantity());
+			product.setQuantity(res.getQuantity());
+			
+			Product save = pRepo.save(product);
+			return save.getPid()!=null;
 		}
+		return false;
+		
 	}
 
 	@Override
@@ -192,6 +186,15 @@ public class AdminOperation implements IAdminOperation {
 			pr.setProductName(product.getProductName());
 			pr.setProductPrice(product.getProductPrice());
 			pr.setFilePath(product.getFilePath());
+			pr.setQuantity(product.getQuantity());
+			pr.setCategory(product.getProductType());
+			if(product.getQuantity()>0) {
+				pr.setStockStatus("Available");
+				pr.setStock(true);
+			}else {
+				pr.setStockStatus("Out Of Stock");
+				pr.setStock(false);
+			}
 			prList.add(pr);
 		});
 		if(!prList.isEmpty())
@@ -207,22 +210,31 @@ public class AdminOperation implements IAdminOperation {
 //	}
 	
 	@Override
-	public StockResponse checkStocck(Integer pid) {
+	public StockResponse checkStocck(Integer pid,Integer noOfProduct) {
 		Optional<Product> findById = pRepo.findById(pid);
-		if(findById.isPresent()) {
+		StockResponse stockResponse = new StockResponse();
+		if (findById.isPresent()) {
 			Product product = findById.get();
 			Integer quantity = product.getQuantity();
-			StockResponse stockResponse = new StockResponse();
-			if(quantity != null && quantity != 0) {
+
+			if (noOfProduct != 0) {
+				if (quantity != null && quantity != 0 && quantity >= noOfProduct) {
+					stockResponse.setProductName(product.getProductName());
+					stockResponse.setQty(quantity);
+					stockResponse.setStock("Available");
+				} else {
+					stockResponse.setProductName(product.getProductName());
+					stockResponse.setQty(quantity);
+					stockResponse.setStock("Not Available");
+				}
+				return stockResponse;
+
+			} else {
 				stockResponse.setProductName(product.getProductName());
 				stockResponse.setQty(quantity);
-				stockResponse.setStock("Available");
-			}else {
-				stockResponse.setProductName(product.getProductName());
-				stockResponse.setQty(quantity);
-				stockResponse.setStock("Not Available");
+				stockResponse.setStock("Please Enter quantity..");
+				return stockResponse;
 			}
-			return stockResponse;
 		}
 		return null;
 	}

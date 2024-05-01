@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class OrderDetails {
 	
+	private String email;
 	private String category;
 	private Integer pid;
 	private String productName;

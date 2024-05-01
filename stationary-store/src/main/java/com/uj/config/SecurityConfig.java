@@ -63,10 +63,17 @@ public class SecurityConfig {
 		
 		return http.csrf((crf)-> crf.disable())
 		.authorizeHttpRequests((requests) -> requests
-			.requestMatchers("/admin/token","/admin/**","/user/**","/order/**").permitAll()
-//			.requestMatchers("/admin/get/**").hasRole("USER")
-//			.requestMatchers("/admin/delete/**").hasRole("ADMIN")
-//			.anyRequest().authenticated()
+			.requestMatchers("/admin/token","/user/register").permitAll()
+//			.requestMatchers("/admin/create","/admin/update/{id}","/admin/delete/**",
+//					"/admin/get/{id}","/admin/getAll","/admin/categories",
+//					"admin/create_p","/admin/update_p/**",
+//					"/admin/delete_p/**","/admin/get_p/**",
+//					"/admin/fetch/**","/admin/stock/**","/admin/update_qty/**",
+//					"/admin/qty/**","/order/**",
+//					"/user/**").hasRole("ADMIN")
+//			.requestMatchers("admin/getAll_p","/admin/fetch/**","/admin/stock/**","/admin/qty/**","/order/place").hasRole("USER")
+			.requestMatchers("/admin/**","/user/**","/order/**").hasAnyRole("ADMIN","USER")
+			.anyRequest().authenticated()
 		).sessionManagement((ses)->{
 			ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		}).authenticationProvider(authenticationProvider())

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uj.dto.AuthRequest;
+import com.uj.dto.RegisterRes;
+import com.uj.dto.Response;
 import com.uj.dto.RoleChange;
 import com.uj.dto.User;
 import com.uj.service.IUserService;
@@ -34,13 +36,30 @@ public class UserController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<String> registerUser(@RequestBody User user){
+	public ResponseEntity<?> registerUser(@RequestBody User user){
+		System.out.println("UserController.registerUser()");
 		boolean status = service.registerEmployee(user);
-		
+		RegisterRes res = new RegisterRes();
 		if(status)
-		  return new ResponseEntity<String>("User registered successfully..",HttpStatus.OK);
+			res.setMsg("User registered successfully..");
 		else
-		  return new ResponseEntity<String>("Registeration failed..",HttpStatus.OK);
+			res.setMsg("Registeration failed..");
+		
+		  return new ResponseEntity<RegisterRes>(res,HttpStatus.OK);
+
+	}
+	
+	@PutMapping("/update/{userId}")
+	public ResponseEntity<?> updateUser(@PathVariable("userId") Integer userId,@RequestBody User user){
+		System.out.println("UserController.registerUser()");
+		boolean status = service.updateUser(userId,user);
+		RegisterRes res = new RegisterRes();
+		if(status)
+			res.setMsg("User update successfully..");
+		else
+			res.setMsg("Updation failed..");
+		
+		  return new ResponseEntity<RegisterRes>(res,HttpStatus.OK);
 
 	}
 	
@@ -70,11 +89,13 @@ public class UserController {
 	@DeleteMapping("/del/{id}")
 	public ResponseEntity<?> deleteUserById(@PathVariable("id") Integer id){
 		boolean deleteUser = service.deleteUser(id);
-		
+		Response res = new Response();
 		if(deleteUser)
-		  return new ResponseEntity<String>("User deleted successfully..",HttpStatus.OK);
+			res.setMsg("User deleted successfully..");
 		else
-		  return new ResponseEntity<String>("Something went wrong",HttpStatus.OK);
+			res.setMsg("Something went wrong");
+		
+		  return new ResponseEntity<Response>(res,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delAll")

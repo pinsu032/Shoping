@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.uj.dto.EmailDetails;
 import com.uj.dto.OrderDetails;
+import com.uj.dto.OrderRes;
 import com.uj.dto.OrderResponse;
 import com.uj.entity.OrderProduct;
 import com.uj.repo.OrderRepo;
+import com.uj.repo.UserMasterRepo;
 import com.uj.restcontroller.AdminController;
 import com.uj.util.EmailUtil;
 
@@ -37,7 +40,9 @@ public class OrderService implements IOrderService {
 			Double totalPrice = details.getNoOfProduct() * details.getPrice();
 			OrderProduct product = new OrderProduct();
 			BeanUtils.copyProperties(details, product);
+			product.setUserId(details.getEmail());
 			product.setTotalPrice(totalPrice);
+			product.setStatus("NOT PAID");
 			OrderProduct save = repo.save(product);
 
 			quantity = quantity - details.getNoOfProduct();
@@ -97,6 +102,33 @@ public class OrderService implements IOrderService {
 		
 		List<OrderResponse> listOrder = new ArrayList<>();
 		findAll.forEach( order -> {
+		  OrderResponse  resp = new OrderResponse();
+		  BeanUtils.copyProperties(order, resp);
+		  listOrder.add(resp);
+		});
+		return listOrder;
+	}
+
+	@Override
+	public OrderRes changeStatus(Integer id) {
+		Optional<OrderProduct> findById = repo.findById(id);
+		OrderRes res = new OrderRes();
+		if(findById.isPresent()) {
+			OrderProduct orderProduct = findById.get();
+			orderProduct.setStatus("PAID");
+			OrderProduct save = repo.save(orderProduct);
+			if(save.getStatus()== "PAID") {
+				res.setStatus("PAID");
+			}
+		}
+		return res;
+	}
+
+	@Override
+	public List<OrderResponse> fetchOrderByEmail(String email) {
+		List<OrderProduct> findByUser_UserId = repo.findByUserId(email);
+		List<OrderResponse> listOrder = new ArrayList<>();
+		findByUser_UserId.forEach( order -> {
 		  OrderResponse  resp = new OrderResponse();
 		  BeanUtils.copyProperties(order, resp);
 		  listOrder.add(resp);

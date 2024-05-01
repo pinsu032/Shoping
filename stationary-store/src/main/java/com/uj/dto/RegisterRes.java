@@ -3,7 +3,7 @@ package com.uj.dto;
 import lombok.Data;
 
 @Data
-public class LoginReq {
+public class RegisterRes {
 
 	private String msg;
 }

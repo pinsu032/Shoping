@@ -28,11 +28,25 @@ public class UserServiceImpl implements IUserService {
 		UsersMaster userMaster = new UsersMaster();
         
 		BeanUtils.copyProperties(user, userMaster);
-		userMaster.setRole("USER");
+		userMaster.setRole("ROLE_USER");
 		userMaster.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		UsersMaster save = masterRepo.save(userMaster);
 		
 		return save.getUserId()!=null;
+	}
+	
+	@Override
+	public boolean updateUser(Integer id, User user) {
+		Optional<UsersMaster> findById = masterRepo.findById(user.getUserId());
+		if(findById.isPresent()) {
+			UsersMaster usersMaster = findById.get();
+			BeanUtils.copyProperties(user, usersMaster);
+			//usersMaster.setUserId(id);
+			UsersMaster save = masterRepo.save(usersMaster);
+			
+			return save.getUserId()!=null;
+		}
+		return false;
 	}
 
 	@Override

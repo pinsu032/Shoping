@@ -9,6 +9,8 @@ import com.uj.dto.User;
 public interface IUserService {
 
 	boolean registerEmployee(User user);
+	
+	boolean updateUser(Integer id , User user);
 
 	List<User> getAllUsers();
 

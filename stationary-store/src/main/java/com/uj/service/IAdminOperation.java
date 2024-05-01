@@ -30,7 +30,7 @@ public interface IAdminOperation {
 	//product operation
 	Boolean saveProduct(Product product);
 
-	Boolean updateProduct(Integer id, Product product);
+	Boolean updateProduct(Integer id, ProductResponse response);
 
 	Integer deleteProductById(Integer id);
 
@@ -44,7 +44,7 @@ public interface IAdminOperation {
 	
 	//String grantRoleOfUser(Integer id,RoleChange role);
 	
-	StockResponse checkStocck(Integer pid);
+	StockResponse checkStocck(Integer pid,Integer noOfProduct);
 	
 	Boolean updateQuantity(Integer id,Integer qty);
 	
